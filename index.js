@@ -1,6 +1,7 @@
 const express = require("express");
 const methodOverride = require("method-override");
-const hbs = require("express-handlebars");
+const { engine } = require("express-handlebars");
+const { handleError } = require("./utils/errors");
 
 const app = express();
 
@@ -10,7 +11,7 @@ app.use(express.static("public"));
 app.use(express.json());
 app.engine(
   ".hbs",
-  hbs.engine({
+  engine({
     extname: ".hbs",
     // helpers: handlebarsHelpers,
   })
@@ -18,9 +19,11 @@ app.engine(
 app.set("view engine", ".hbs");
 
 app.get("/", (req, res) => {
-  return res.send("<h1>Hello world</h1>");
+  return res.render("children/list");
 });
 
+app.use(handleError);
+
 app.listen(3000, () => {
-  console.log("Server listening on port 3000...");
+  console.log("Listening on port 3000...");
 });
