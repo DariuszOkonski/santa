@@ -4,9 +4,9 @@ const { GiftRecord } = require("../records/gift.record");
 
 const childRouter = express.Router();
 
-childRouter.get("/", (req, res) => {
-  const childrenList = ChildRecord.listAll();
-  const giftsList = GiftRecord.listAll();
+childRouter.get("/", async (req, res) => {
+  const childrenList = await ChildRecord.listAll();
+  const giftsList = await GiftRecord.listAll();
 
   return res.render("children/list", {
     childrenList,

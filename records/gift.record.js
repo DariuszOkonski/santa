@@ -1,10 +1,9 @@
+const { pool } = require("../utils/db");
+
 class GiftRecord {
-  static listAll() {
-    return [
-      { id: "afde", name: "Domek dla lalek", count: 5 },
-      { id: "dfsf", name: "Samochodzik", count: 3 },
-      { id: "cvcd", name: "Barbie", count: 11 },
-    ];
+  static async listAll() {
+    const [results] = await pool.execute("SELECT * FROM `gifts`");
+    return results;
   }
 }
 
