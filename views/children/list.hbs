@@ -2,17 +2,22 @@
 <ul>
   {{#each childrenList}}
     <li>
-      <label>
+      <form action="/child/gift/{{this.id}}?_method=PATCH" method="POST">
+        <label>
         {{this.name}}
         -
-        <select>
+        <select name="giftId">
           <option value="">Brak</option>
           {{#each ../giftsList}}
-            <option value="{{this.name}}">{{this.name}}</option>
+            <option 
+              value="{{this.id}}" 
+              {{#if (equals this.id ../giftId)}}selected="selected"{{/if}}
+            >{{this.name}}</option>
           {{/each}}
         </select>
       </label>
       <button>zapisz</button>
+      </form>
     </li>
   {{/each}}
 </ul>

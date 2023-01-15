@@ -8,7 +8,6 @@ class ChildRecord {
       throw new ValidationError("Imię musi mieć od 3 do 25 znaków");
     }
 
-    // this.id = obj.id;
     this.name = obj.name;
   }
 
@@ -32,6 +31,17 @@ class ChildRecord {
     const [results] = await pool.execute("SELECT * FROM `children`");
 
     return results;
+  }
+
+  static async getOne(id) {
+    const [results] = await pool.execute(
+      "SELECT * FROM `children` WHERE `id` = :id",
+      {
+        id,
+      }
+    );
+
+    return results.length === 0 ? null : results[0];
   }
 }
 

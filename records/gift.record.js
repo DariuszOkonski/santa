@@ -39,6 +39,17 @@ class GiftRecord {
     );
     return results;
   }
+
+  static async getOne(id) {
+    const [results] = await pool.execute(
+      "SELECT * FROM `gifts` WHERE `id` = :id",
+      {
+        id,
+      }
+    );
+
+    return results.length === 0 ? null : results[0];
+  }
 }
 
 module.exports = {

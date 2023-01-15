@@ -1,6 +1,7 @@
 const express = require("express");
 const { ChildRecord } = require("../records/child.record");
 const { GiftRecord } = require("../records/gift.record");
+const { ValidationError } = require("../utils/errors");
 
 const childRouter = express.Router();
 
@@ -15,14 +16,27 @@ childRouter.get("/", async (req, res) => {
 });
 
 childRouter.post("/", async (req, res) => {
-  console.log(req.body);
-
   const data = {
     ...req.body,
   };
 
   const newChild = new ChildRecord(data);
   await newChild.insert();
+
+  return res.redirect("/child");
+});
+
+childRouter.patch("/gift/:childId", async (req, res) => {
+  const child = await ChildRecord.getOne(req.params.childId);
+
+  if (child === null) {
+    throw new ValidationError("Nie znaleziono dziecka z podanym ID.");
+  }
+
+  const gift =
+    req.body.giftId === "" ? null : await GiftRecord.getOne(req.body.giftId);
+
+  console.log(gift);
 
   return res.redirect("/child");
 });
