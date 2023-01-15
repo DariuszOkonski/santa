@@ -36,7 +36,9 @@ childRouter.patch("/gift/:childId", async (req, res) => {
   const gift =
     req.body.giftId === "" ? null : await GiftRecord.getOne(req.body.giftId);
 
-  console.log(gift);
+  child.giftId = gift?.id ?? null;
+
+  await child.update();
 
   return res.redirect("/child");
 });

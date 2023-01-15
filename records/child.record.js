@@ -8,6 +8,7 @@ class ChildRecord {
       throw new ValidationError("Imię musi mieć od 3 do 25 znaków");
     }
 
+    this.id = obj.id;
     this.name = obj.name;
   }
 
@@ -30,7 +31,7 @@ class ChildRecord {
   static async listAll() {
     const [results] = await pool.execute("SELECT * FROM `children`");
 
-    return results;
+    return results.map((obj = new ChildRecord(obj)));
   }
 
   static async getOne(id) {
@@ -41,7 +42,18 @@ class ChildRecord {
       }
     );
 
-    return results.length === 0 ? null : results[0];
+    return results.length === 0 ? null : new ChildRecord(results[0]);
+  }
+
+  async update() {
+    await pool.execute(
+      "UPDATE `children` SET `name` = :name, `giftId` = :giftId WHERE `id` = :id",
+      {
+        id: this.id,
+        name: this.name,
+        giftId: this.giftId,
+      }
+    );
   }
 }
 

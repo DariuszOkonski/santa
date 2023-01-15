@@ -37,7 +37,7 @@ class GiftRecord {
     const [results] = await pool.execute(
       "SELECT * FROM `gifts` ORDER BY `name` ASC"
     );
-    return results;
+    return results.map((obj) => new GiftRecord(obj));
   }
 
   static async getOne(id) {
@@ -48,7 +48,7 @@ class GiftRecord {
       }
     );
 
-    return results.length === 0 ? null : results[0];
+    return results.length === 0 ? null : new GiftRecord(results[0]);
   }
 }
 
