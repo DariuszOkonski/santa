@@ -34,7 +34,9 @@ class GiftRecord {
   }
 
   static async listAll() {
-    const [results] = await pool.execute("SELECT * FROM `gifts`");
+    const [results] = await pool.execute(
+      "SELECT * FROM `gifts` ORDER BY `name` ASC"
+    );
     return results;
   }
 }

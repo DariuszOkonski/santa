@@ -14,6 +14,19 @@ childRouter.get("/", async (req, res) => {
   });
 });
 
+childRouter.post("/", async (req, res) => {
+  console.log(req.body);
+
+  const data = {
+    ...req.body,
+  };
+
+  const newChild = new ChildRecord(data);
+  await newChild.insert();
+
+  return res.redirect("/child");
+});
+
 module.exports = {
   childRouter,
 };
