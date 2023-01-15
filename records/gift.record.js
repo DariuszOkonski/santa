@@ -41,6 +41,9 @@ class GiftRecord {
   }
 
   static async getOne(id) {
+    console.log("-------------------");
+    console.log("id: ", id);
+
     const [results] = await pool.execute(
       "SELECT * FROM `gifts` WHERE `id` = :id",
       {
@@ -48,7 +51,21 @@ class GiftRecord {
       }
     );
 
+    console.log("GETONE: ", results);
+    console.log("-----------------");
+
     return results.length === 0 ? null : new GiftRecord(results[0]);
+  }
+
+  async countGivenGifts() {
+    const [[{ count }]] = await pool.execute(
+      "SELECT COUNT(*) AS `count` FROM `children` WHERE `giftId` = :id",
+      {
+        id: this.id,
+      }
+    );
+
+    return count;
   }
 }
 

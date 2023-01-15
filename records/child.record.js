@@ -1,6 +1,7 @@
 const { pool } = require("../utils/db");
 const { ValidationError } = require("../utils/errors");
 const { v4: uuid } = require("uuid");
+const { GiftRecord } = require("./gift.record");
 
 class ChildRecord {
   constructor(obj) {
@@ -10,6 +11,7 @@ class ChildRecord {
 
     this.id = obj.id;
     this.name = obj.name;
+    this.giftId = obj.giftId;
   }
 
   async insert() {
@@ -31,7 +33,7 @@ class ChildRecord {
   static async listAll() {
     const [results] = await pool.execute("SELECT * FROM `children`");
 
-    return results.map((obj = new ChildRecord(obj)));
+    return results.map((obj) => new ChildRecord(obj));
   }
 
   static async getOne(id) {
