@@ -14,7 +14,7 @@ class GiftRecord {
       );
     }
 
-    this.id = uuid();
+    // this.id = uuid();
     this.name = obj.name;
     this.count = obj.count;
   }
